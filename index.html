@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - Seed Infotech</title>
+    
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --bg-color: #ffffff;
+            --text-color: #333333;
+            --card-bg: #ffffff;
+            --border-color: #dee2e6;
+            --input-bg: #ffffff;
+        }
+
+        [data-theme="dark"] {
+            --bg-color: #1a1a1a;
+            --text-color: #ffffff;
+            --card-bg: #2d2d2d;
+            --border-color: #404040;
+            --input-bg: #3d3d3d;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            transition: all 0.3s ease;
+        }
+
+        .navbar {
+            background-color: var(--card-bg) !important;
+            border-bottom: 1px solid var(--border-color);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+            font-weight: bold;
+            font-size: 1.5rem;
+            color: var(--text-color) !important;
+        }
+
+        .navbar-brand img {
+            height: 40px;
+            margin-right: 10px;
+        }
+
+        .nav-link {
+            color: var(--text-color) !important;
+        }
+
+        .signup-container {
+            min-height: calc(100vh - 76px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .signup-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            max-width: 1000px;
+            width: 100%;
+        }
+
+        .signup-side {
+            background: var(--primary-gradient);
+            color: white;
+            padding: 3rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .form-side {
+            padding: 3rem;
+        }
+
+        .form-control {
+            background-color: var(--input-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+            border-radius: 10px;
+            padding: 12px 15px;
+            margin-bottom: 1rem;
+        }
+
+        .form-control:focus {
+            background-color: var(--input-bg);
+            border-color: #667eea;
+            color: var(--text-color);
+            box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+        }
+
+        .form-select {
+            background-color: var(--input-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+            border-radius: 10px;
+        }
+
+        .form-select:focus {
+            background-color: var(--input-bg);
+            border-color: #667eea;
+            color: var(--text-color);
+            box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+        }
+
+        .btn-primary {
+            background: var(--primary-gradient);
+            border: none;
+            border-radius: 10px;
+            padding: 12px 30px;
+            font-weight: 600;
+            width: 100%;
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+        }
+
+        .btn-outline-primary {
+            color: #667eea;
+            border-color: #667eea;
+            border-radius: 10px;
+            padding: 8px 25px;
+        }
+
+        .btn-outline-primary:hover {
+            background-color: #667eea;
+            border-color: #667eea;
+        }
+
+        .theme-toggle {
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            z-index: 1000;
+            background: var(--primary-gradient);
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            color: white;
+            font-size: 1.2rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.1);
+        }
+
+        .password-strength {
+            height: 4px;
+            background-color: var(--border-color);
+            border-radius: 2px;
+            margin-top: 5px;
+            overflow: hidden;
+        }
+
+        .password-strength-bar {
+            height: 100%;
+            width: 0%;
+            transition: all 0.3s ease;
+        }
+
+        .strength-weak { background-color: #dc3545; }
+        .strength-medium { background-color: #ffc107; }
+        .strength-strong { background-color: #28a745; }
+
+        .form-check-input:checked {
+            background-color: #667eea;
+            border-color: #667eea;
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--border-color);
+        }
+
+        .divider span {
+            padding: 0 15px;
+            color: var(--text-color);
+            font-size: 0.9rem;
+        }
+
+        .social-login {
+            border: 1px solid var(--border-color);
+            background-color: var(--card-bg);
+            color: var(--text-color);
+            border-radius: 10px;
+            padding: 10px;
+            width: 100%;
+            margin: 5px 0;
+            transition: all 0.3s ease;
+        }
+
+        .social-login:hover {
+            background-color: var(--input-bg);
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 768px) {
+            .signup-side {
+                display: none;
+            }
+            
+            .form-side {
+                padding: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <img src="images/logo.jpeg" alt="SEED Logo">
+                SEED
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="home.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="academics.html">Academics</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="admission.html">Admission</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="login.html">Login</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Theme Toggle Button -->
+    <button class="theme-toggle" onclick="toggleTheme()" title="Toggle Dark/Light Mode">
+        <i class="fas fa-moon" id="theme-icon"></i>
+    </button>
+
+    <!-- Signup Container -->
+    <div class="signup-container">
+        <div class="signup-card">
+            <div class="row g-0">
+                <div class="col-lg-5 signup-side">
+                    <div>
+                        <h2 class="mb-4">Join SEED Family!</h2>
+                        <p class="mb-4">Start your journey with us and unlock endless opportunities in IT education</p>
+                        <div class="mb-4">
+                            <i class="fas fa-users fa-3x mb-3"></i>
+                        </div>
+                        <p>Already have an account?</p>
+                        <a href="login.html" class="btn btn-outline-light">Sign In</a>
+                    </div>
+                </div>
+                <div class="col-lg-7 form-side">
+                    <div class="text-center mb-4">
+                        <h3 class="mb-3">Create Account</h3>
+                        <p class="text-muted">Join thousands of students in their learning journey</p>
+                    </div>
+                    
+                    <form id="signupForm">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="firstName" class="form-label">First Name</label>
+                                <input type="text" class="form-control" id="firstName" placeholder="Enter first name" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="lastName" class="form-label">Last Name</label>
+                                <input type="text" class="form-control" id="lastName" placeholder="Enter last name" required>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email Address</label>
+                            <input type="email" class="form-control" id="email" placeholder="Enter your email" required>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="phone" class="form-label">Phone Number</label>
+                            <input type="tel" class="form-control" id="phone" placeholder="Enter phone number" required>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="course" class="form-label">Course Interest</label>
+                            <select class="form-select" id="course" required>
+                                <option value="">Select a course</option>
+                                <option value="java">Java Development</option>
+                                <option value="python">Python Programming</option>
+                                <option value="data-science">Data Science</option>
+                                <option value="web-dev">Web Development</option>
+                                <option value="cloud">Cloud Computing</option>
+                                <option value="mobile">Mobile App Development</option>
+                                <option value="ai-ml">AI & Machine Learning</option>
+                            </select>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Password</label>
+                            <div class="position-relative">
+                                <input type="password" class="form-control" id="password" placeholder="Create a password" required>
+                                <span class="position-absolute top-50 end-0 translate-middle-y me-3" style="cursor: pointer;" onclick="togglePassword('password', 'password-icon')">
+                                    <i class="fas fa-eye" id="password-icon"></i>
+                                </span>
+                            </div>
+                            <div class="password-strength">
+                                <div class="password-strength-bar" id="strength-bar"></div>
+                            </div>
+                            <small class="text-muted" id="strength-text">Password strength will appear here</small>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="confirmPassword" class="form-label">Confirm Password</label>
+                            <div class="position-relative">
+                                <input type="password" class="form-control" id="confirmPassword" placeholder="Confirm your password" required>
+                                <span class="position-absolute top-50 end-0 translate-middle-y me-3" style="cursor: pointer;" onclick="togglePassword('confirmPassword', 'confirm-password-icon')">
+                                    <i class="fas fa-eye" id="confirm-password-icon"></i>
+                                </span>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3 form-check">
+                            <input class="form-check-input" type="checkbox" id="terms" required>
+                            <label class="form-check-label" for="terms">
+                                I agree to the <a href="#" class="text-decoration-none">Terms of Service</a> and <a href="#" class="text-decoration-none">Privacy Policy</a>
+                            </label>
+                        </div>
+                        
+                        <div class="mb-3 form-check">
+                            <input class="form-check-input" type="checkbox" id="newsletter">
+                            <label class="form-check-label" for="newsletter">
+                                Subscribe to our newsletter for updates and course information
+                            </label>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary mb-3">Create Account</button>
+                    </form>
+                    
+                    <div class="divider">
+                        <span>or sign up with</span>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-6">
+                            <button class="social-login">
+                                <i class="fab fa-google text-danger me-2"></i>
+                                Google
+                            </button>
+                        </div>
+                        <div class="col-6">
+                            <button class="social-login">
+                                <i class="fab fa-facebook text-primary me-2"></i>
+                                Facebook
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+     
+   <script>
+    // Theme Toggle Functionality
+    function toggleTheme() {
+        const body = document.body;
+        const themeIcon = document.getElementById('theme-icon');
+        
+        if (body.getAttribute('data-theme') === 'dark') {
+            body.removeAttribute('data-theme');
+            themeIcon.className = 'fas fa-moon';
+            localStorage.setItem('theme', 'light');
+        } else {
+            body.setAttribute('data-theme', 'dark');
+            themeIcon.className = 'fas fa-sun';
+            localStorage.setItem('theme', 'dark');
+        }
+    }
+
+    // Load saved theme
+    function loadTheme() {
+        const savedTheme = localStorage.getItem('theme');
+        const themeIcon = document.getElementById('theme-icon');
+        
+        if (savedTheme === 'dark') {
+            document.body.setAttribute('data-theme', 'dark');
+            themeIcon.className = 'fas fa-sun';
+        }
+    }
+
+    // Password visibility toggle
+    function togglePassword(inputId, iconId) {
+        const passwordInput = document.getElementById(inputId);
+        const passwordIcon = document.getElementById(iconId);
+        
+        if (passwordInput.type === 'password') {
+            passwordInput.type = 'text';
+            passwordIcon.className = 'fas fa-eye-slash';
+        } else {
+            passwordInput.type = 'password';
+            passwordIcon.className = 'fas fa-eye';
+        }
+    }
+
+    // Password strength checker
+    function checkPasswordStrength(password) {
+        const strengthBar = document.getElementById('strength-bar');
+        const strengthText = document.getElementById('strength-text');
+        
+        let strength = 0;
+        let feedback = [];
+        
+        if (password.length >= 8) strength += 1; else feedback.push('at least 8 characters');
+        if (/[a-z]/.test(password)) strength += 1; else feedback.push('lowercase letter');
+        if (/[A-Z]/.test(password)) strength += 1; else feedback.push('uppercase letter');
+        if (/\d/.test(password)) strength += 1; else feedback.push('number');
+        if (/[!@#$%^&*(),.?":{}|<>]/.test(password)) strength += 1; else feedback.push('special character');
+
+        const percentage = (strength / 5) * 100;
+        strengthBar.style.width = percentage + '%';
+
+        if (strength <= 2) {
+            strengthBar.className = 'password-strength-bar strength-weak';
+            strengthText.textContent = 'Weak - Add: ' + feedback.join(', ');
+        } else if (strength <= 3) {
+            strengthBar.className = 'password-strength-bar strength-medium';
+            strengthText.textContent = 'Medium - Add: ' + feedback.join(', ');
+        } else {
+            strengthBar.className = 'password-strength-bar strength-strong';
+            strengthText.textContent = 'Strong password!';
+        }
+    }
+
+    // Password input event listener
+    document.getElementById('password').addEventListener('input', function () {
+        checkPasswordStrength(this.value);
+    });
+
+    // Form validation and submission
+    document.getElementById('signupForm').addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        const formData = {
+            firstName: document.getElementById('firstName').value,
+            lastName: document.getElementById('lastName').value,
+            email: document.getElementById('email').value,
+            phone: document.getElementById('phone').value,
+            course: document.getElementById('course').value,
+            password: document.getElementById('password').value,
+            confirmPassword: document.getElementById('confirmPassword').value,
+            terms: document.getElementById('terms').checked,
+            newsletter: document.getElementById('newsletter').checked
+        };
+
+        // Validation
+        if (!formData.firstName || !formData.lastName || !formData.email ||
+            !formData.phone || !formData.course || !formData.password ||
+            !formData.confirmPassword) {
+            alert('Please fill in all required fields');
+            return;
+        }
+
+        if (formData.password !== formData.confirmPassword) {
+            alert('Passwords do not match');
+            return;
+        }
+
+        if (!formData.terms) {
+            alert('Please accept the Terms of Service and Privacy Policy');
+            return;
+        }
+
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(formData.email)) {
+            alert('Please enter a valid email address');
+            return;
+        }
+
+        const phoneRegex = /^[\+]?[1-9][\d]{0,15}$/;
+        if (!phoneRegex.test(formData.phone.replace(/\s/g, ''))) {
+            alert('Please enter a valid phone number');
+            return;
+        }
+
+        // Save user data to localStorage
+        const users = JSON.parse(localStorage.getItem("users")) || [];
+
+        const userExists = users.find(user => user.email === formData.email);
+
+        if (userExists) {
+            alert("An account with this email already exists!");
+            return;
+        }
+
+        users.push({
+            firstName: formData.firstName,
+            lastName: formData.lastName,
+            email: formData.email,
+            phone: formData.phone,
+            course: formData.course,
+            password: formData.password,
+            newsletter: formData.newsletter
+        });
+
+        localStorage.setItem("users", JSON.stringify(users));
+
+        alert("Account created successfully! You can now log in.");
+        window.location.href = "login.html";
+    });
+
+    // Load theme on page load
+    document.addEventListener('DOMContentLoaded', function () {
+        loadTheme();
+    });
+</script>
+</body>
+</html>

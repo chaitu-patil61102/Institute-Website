@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login - Seed Infotech</title>
+
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+
+  <style>
+    :root {
+      --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      --bg-color: #ffffff;
+      --text-color: #333333;
+      --card-bg: #ffffff;
+      --border-color: #dee2e6;
+      --input-bg: #ffffff;
+    }
+
+    [data-theme="dark"] {
+      --bg-color: #1a1a1a;
+      --text-color: #ffffff;
+      --card-bg: #2d2d2d;
+      --border-color: #404040;
+      --input-bg: #3d3d3d;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      min-height: 100vh;
+      transition: all 0.3s ease;
+    }
+
+    .navbar {
+      background-color: var(--card-bg) !important;
+      border-bottom: 1px solid var(--border-color);
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .navbar-brand {
+      display: flex;
+      align-items: center;
+      font-weight: bold;
+      font-size: 1.5rem;
+      color: var(--text-color) !important;
+    }
+
+    .navbar-brand img {
+      height: 40px;
+      margin-right: 10px;
+    }
+
+    .nav-link {
+      color: var(--text-color) !important;
+    }
+
+    .login-container {
+      min-height: calc(100vh - 76px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .login-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      max-width: 900px;
+      width: 100%;
+    }
+
+    .login-side {
+      background: var(--primary-gradient);
+      color: white;
+      padding: 3rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      text-align: center;
+    }
+
+    .form-side {
+      padding: 3rem;
+    }
+
+    .form-control {
+      background-color: var(--input-bg);
+      border: 1px solid var(--border-color);
+      color: var(--text-color);
+      border-radius: 10px;
+      padding: 12px 15px;
+      margin-bottom: 1rem;
+    }
+
+    .form-control:focus {
+      background-color: var(--input-bg);
+      border-color: #667eea;
+      color: var(--text-color);
+      box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+    }
+
+    .btn-primary {
+      background: var(--primary-gradient);
+      border: none;
+      border-radius: 10px;
+      padding: 12px 30px;
+      font-weight: 600;
+      width: 100%;
+    }
+
+    .btn-primary:hover {
+      background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+    }
+
+    .theme-toggle {
+      position: fixed;
+      top: 100px;
+      right: 20px;
+      z-index: 1000;
+      background: var(--primary-gradient);
+      border: none;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      color: white;
+      font-size: 1.2rem;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      transition: transform 0.3s ease;
+    }
+
+    .theme-toggle:hover {
+      transform: scale(1.1);
+    }
+
+    .forgot-password {
+      color: #667eea;
+      text-decoration: none;
+      font-size: 0.9rem;
+    }
+
+    .forgot-password:hover {
+      color: #764ba2;
+      text-decoration: underline;
+    }
+
+    @media (max-width: 768px) {
+      .login-side {
+        display: none;
+      }
+
+      .form-side {
+        padding: 2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light">
+    <div class="container">
+      <a class="navbar-brand" href="index.html">
+        <img src="images/logo.jpeg" alt="SEED Logo" />
+        SEED
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" href="home.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="academics.html">Academics</a></li>
+          <li class="nav-item"><a class="nav-link" href="admission.html">Admission</a></li>
+          <li class="nav-item"><a class="nav-link" href="index.html">Sign Up</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Theme Toggle -->
+  <button class="theme-toggle" onclick="toggleTheme()" title="Toggle Dark/Light Mode">
+    <i class="fas fa-moon" id="theme-icon"></i>
+  </button>
+
+  <!-- Login -->
+  <div class="login-container">
+    <div class="login-card row g-0">
+      <div class="col-lg-6 login-side">
+        <h2>Welcome Back!</h2>
+        <p>Connect with us and continue your learning journey with SEED Infotech</p>
+        <i class="fas fa-graduation-cap fa-3x mb-3"></i>
+        <p>Don't have an account?</p>
+        <a href="index.html" class="btn btn-outline-light">Create Account</a>
+      </div>
+      <div class="col-lg-6 form-side">
+        <h3 class="text-center mb-3">Sign In</h3>
+        <form id="loginForm">
+          <div class="mb-3">
+            <label for="email" class="form-label">Email Address</label>
+            <input type="email" class="form-control" id="email" required />
+          </div>
+          <div class="mb-3">
+            <label for="password" class="form-label">Password</label>
+            <div class="position-relative">
+              <input type="password" class="form-control" id="password" required />
+              <span class="position-absolute top-50 end-0 translate-middle-y me-3" onclick="togglePassword()" style="cursor: pointer;">
+                <i class="fas fa-eye" id="password-icon"></i>
+              </span>
+            </div>
+          </div>
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" id="remember" />
+              <label class="form-check-label" for="remember">Remember me</label>
+            </div>
+            <a href="#" class="forgot-password">Forgot Password?</a>
+          </div>
+          <button type="submit" class="btn btn-primary">Sign In</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+  <script>
+    function toggleTheme() {
+      const body = document.body;
+      const themeIcon = document.getElementById("theme-icon");
+      const isDark = body.getAttribute("data-theme") === "dark";
+      body.setAttribute("data-theme", isDark ? "" : "dark");
+      themeIcon.className = isDark ? "fas fa-moon" : "fas fa-sun";
+      localStorage.setItem("theme", isDark ? "light" : "dark");
+    }
+
+    function loadTheme() {
+      const saved = localStorage.getItem("theme");
+      if (saved === "dark") {
+        document.body.setAttribute("data-theme", "dark");
+        document.getElementById("theme-icon").className = "fas fa-sun";
+      }
+    }
+
+    function togglePassword() {
+      const input = document.getElementById("password");
+      const icon = document.getElementById("password-icon");
+      const isHidden = input.type === "password";
+      input.type = isHidden ? "text" : "password";
+      icon.className = isHidden ? "fas fa-eye-slash" : "fas fa-eye";
+    }
+
+    // Handle login
+    document.getElementById("loginForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+
+      const users = JSON.parse(localStorage.getItem("users")) || [];
+      const user = users.find((u) => u.email === email && u.password === password);
+
+      if (user) {
+        alert("Login successful! Welcome, " + user.firstName);
+        localStorage.setItem("loggedInUser", JSON.stringify(user));
+        window.location.href = "home.html";
+      } else {
+        alert("Invalid email or password");
+      }
+    });
+
+    document.addEventListener("DOMContentLoaded", loadTheme);
+  </script>
+</body>
+</html>

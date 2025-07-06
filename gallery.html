@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gallery - Seed Infotech</title>
+    
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    
+    <style>
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+
+        .navbar-brand img {
+            height: 40px;
+            margin-right: 10px;
+        }
+
+        .page-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 60px 0;
+        }
+
+        .section-padding {
+            padding: 60px 0;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+        }
+
+        .highlight-text {
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        /* Gallery Filter Styles */
+        .filter-buttons {
+            margin-bottom: 40px;
+        }
+
+        .filter-btn {
+            background: transparent;
+            border: 2px solid #667eea;
+            color: #667eea;
+            padding: 10px 20px;
+            margin: 5px;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+        }
+
+        .filter-btn.active,
+        .filter-btn:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        /* Gallery Grid Styles */
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .gallery-item:hover {
+            transform: scale(1.05);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+
+        .gallery-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.8) 100%);
+            display: flex;
+            align-items: flex-end;
+            padding: 20px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .gallery-item:hover .gallery-overlay {
+            opacity: 1;
+        }
+
+        .gallery-overlay h5 {
+            color: white;
+            margin: 0;
+            font-size: 1.1rem;
+        }
+
+        .gallery-overlay p {
+            color: #ccc;
+            margin: 0;
+            font-size: 0.9rem;
+        }
+
+        /* Modal Styles */
+        .modal-dialog {
+            max-width: 90vw;
+        }
+
+        .modal-content {
+            background: transparent;
+            border: none;
+        }
+
+        .modal-body {
+            padding: 0;
+        }
+
+        .modal-body img {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+        }
+
+        .modal-header {
+            border: none;
+            background: rgba(0,0,0,0.8);
+            color: white;
+        }
+
+        .btn-close {
+            background: none;
+            opacity: 1;
+        }
+
+        .btn-close:focus {
+            box-shadow: none;
+        }
+
+        /* Stats Section */
+        .stats-card {
+            text-align: center;
+            padding: 30px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+            transition: transform 0.3s ease;
+        }
+
+        .stats-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .stats-icon {
+            font-size: 3rem;
+            color: #667eea;
+            margin-bottom: 15px;
+        }
+
+        .stats-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #2c3e50;
+            display: block;
+        }
+
+        .stats-label {
+            color: #666;
+            font-size: 1.1rem;
+        }
+
+        /* Video Section */
+        .video-container {
+            position: relative;
+            width: 100%;
+            height: 400px;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .video-placeholder {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+        }
+
+        .play-button {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(255,255,255,0.9);
+            border: none;
+            border-radius: 50%;
+            width: 80px;
+            height: 80px;
+            font-size: 2rem;
+            color: #667eea;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .play-button:hover {
+            background: white;
+            transform: translate(-50%, -50%) scale(1.1);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <img src="images/logo.jpeg" alt="SEED Logo">
+                SEED
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="home.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="academics.html">Academics</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="admission.html">Admission</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="gallery.html">Gallery</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <section class="page-header text-center">
+        <div class="container">
+            <h1>Gallery</h1>
+            <p class="lead">Discover Life at SEED Infotech Through Our Visual Journey</p>
+        </div>
+    </section>
+
+    <!-- Gallery Stats -->
+    <section class="section-padding bg-light">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="stats-card">
+                        <div class="stats-icon">🏢</div>
+                        <span class="stats-number">5</span>
+                        <div class="stats-label">Modern Campuses</div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stats-card">
+                        <div class="stats-icon">💻</div>
+                        <span class="stats-number">50+</span>
+                        <div class="stats-label">State-of-art Labs</div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stats-card">
+                        <div class="stats-icon">🎓</div>
+                        <span class="stats-number">100+</span>
+                        <div class="stats-label">Events Annually</div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stats-card">
+                        <div class="stats-icon">👥</div>
+                        <span class="stats-number">10000+</span>
+                        <div class="stats-label">Happy Students</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section class="section-padding">
+        <div class="container">
+            <div class="row text-center mb-5">
+                <div class="col">
+                    <h2>Explore Our <span class="highlight-text">Campus Life</span></h2>
+                    <p class="lead">Browse through moments that define the SEED experience</p>
+                </div>
+            </div>
+
+            <!-- Filter Buttons -->
+            <div class="filter-buttons text-center">
+                <button class="filter-btn active" data-filter="all">All</button>
+                <button class="filter-btn" data-filter="campus">Campus</button>
+                <button class="filter-btn" data-filter="labs">Labs & Facilities</button>
+                <button class="filter-btn" data-filter="events">Events</button>
+                <button class="filter-btn" data-filter="graduation">Graduation</button>
+                <button class="filter-btn" data-filter="activities">Student Activities</button>
+            </div>
+
+            <!-- Gallery Grid -->
+            <div class="row" id="galleryGrid">
+                <!-- Campus Images -->
+                <div class="col-lg-4 col-md-6 gallery-item" data-category="campus" data-bs-toggle="modal" data-bs-target="#imageModal" data-src="https://via.placeholder.com/400x300/667eea/ffffff?text=Campus+Building" data-title="Main Campus Building" data-description="Our modern campus facility in the heart of Pune">
+                    <img src="images/campus.jpeg" alt="Campus Building">
+                    <div class="gallery-overlay">
+                        <div>
+                            <h5>Main Campus Building</h5>
+                            <p>Modern infrastructure with cutting-edge facilities</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6 gallery-item" data-category="campus" data-bs-toggle="modal" data-bs-target="#imageModal" data-src="https://via.placeholder.com/400x300/764ba2/ffffff?text=Reception+Area" data-title="Reception & Lobby" data-description="Welcoming entrance with modern design">
+                    <img src="images/reception.jpeg" alt="Reception Area">
+                    <div class="gallery-overlay">
+                        <div>
+                            <h5>Reception & Lobby</h5>
+                            <p>First impression of our welcoming environment</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6 gallery-item" data-category="campus" data-bs-toggle="modal" data-bs-target="#imageModal" data-src="https://via.placeholder.com/400x300/667eea/ffffff?text=Library" data-title="Digital Library" data-description="Extensive collection of technical resources">
+                    <img src="images/library.jpeg" alt="Library">
+                    <div class="gallery-overlay">
+                        <div>
+                            <h5>Digital Library</h5>
+                            <p>Quiet study spaces with digital resources</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Labs & Facilities -->
+                <div class="col-lg-4 col-md-6 gallery-item" data-category="labs" data-bs-toggle="modal" data-bs-target="#imageModal" data-src="https://via.placeholder.com/400x300/2ecc71/ffffff?text=Computer+Lab" data-title="Computer Lab" data-description="High-end workstations for hands-on learning">
+                    <img src="images/computer.jpeg" alt="Computer Lab">
+                    <div class="gallery-overlay">
+                        <div>
+                            <h5>Computer Lab</h5>
+                            <p>Latest hardware and software for practical training</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6 gallery-item" data-category="labs" data-bs-toggle="modal" data-bs-target="#imageModal" data-src="https://via.placeholder.com/400x300/e74c3c/ffffff?text=Network+Lab" data-title="Networking Lab" data-description="Advanced networking equipment and setups">
+                    <img src="images/network.jpeg" alt="Network Lab">
+                    <div class="gallery-overlay">
+                        <div>
+                            <h5>Networking Lab</h5>
+                            <p>Cisco and other networking equipment for hands-on practice</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6 gallery-item" data-category="labs" data-bs-toggle="modal" data-bs-target="#imageModal" data-src="https://via.placeholder.com/400x300/f39c12/ffffff?text=Cloud+Lab" data-title="Cloud Computing Lab" data-description="Cloud infrastructure simulation environment">
+                    <img src="images/claud.jpeg" alt="Cloud Lab">
+                    <div class="gallery-overlay">
+                        <div>
+                            <h5>Cloud Computing Lab</h5>
+                            <p>AWS, Azure, and GCP training environments</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Events -->
+                <div class="col-lg-4 col-md-6 gallery-item" data-category="events" data-bs-toggle="modal" data-bs-target="#imageModal" data-src="https://via.placeholder.com/400x300/9b59b6/ffffff?text=Tech+Fest" data-title="Annual Tech Fest" data-description="Students showcasing innovative projects">
+                    <img src="images/contest.png" alt="Tech Fest">
+                    <div class="gallery-overlay">
+                        <div>
+                            <h5>Annual Tech Fest</h5>
+                            <p>Innovation and creativity on full display</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6 gallery-item" data-category="events" data-bs-toggle="modal" data-bs-target="#imageModal" data-src="https://via.placeholder.com/400x300/1abc9c/ffffff?text=Job+Fair" data-title="Mega Job Fair" data-description="Connecting students with top employers">
+                    <img src="images/job fair.jpeg" alt="Job Fair">
+                    <div class="gallery-overlay">
+                        <div>
+                            <h5>Mega Job Fair</h5>
+                            <p>50,000+ opportunities created annually</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6 gallery-item" data-category="events" data-bs-toggle="modal" data-bs-target="#imageModal" data-src="https://via.placeholder.com/400x300/34495e/ffffff?text=Seminar" data-title="Industry Seminar" data-description="Expert sessions by industry leaders">
+                    <img src="images/seminar.jpeg" alt="Seminar">
+                    <div class="gallery-overlay">
+                        <div>
+                            <h5>Industry Seminar</h5>
+                            <p>Learning from industry experts and leaders</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Graduation -->
+                <div class="col-lg-4 col-md-6 gallery-item" data-category="graduation" data-bs-toggle="modal" data-bs-target="#imageModal" data-src="https://via.placeholder.com/400x300/667eea/ffffff?text=Graduation+2024" data-title="Graduation Ceremony 2024" data-description="Celebrating student achievements">
+                    <img src="images/graduation.png" alt="Graduation 2024">
+                    <div class="gallery-overlay">
+                        <div>
+                            <h5>Graduation Ceremony 2024</h5>
+                            <p>Proud moment for students and faculty</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6 gallery-item" data-category="graduation" data-bs-toggle="modal" data-bs-target="#imageModal" data-src="https://via.placeholder.com/400x300/e67e22/ffffff?text=Certificate+Distribution" data-title="Certificate Distribution" data-description="Recognizing excellence and achievement">
+                    <img src="images/certificate.jpeg" alt="Certificate Distribution">
+                    <div class="gallery-overlay">
+                        <div>
+                            <h5>Certificate Distribution</h5>
+                            <p>Industry-recognized certifications awarded</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Student Activities -->
+                <div class="col-lg-4 col-md-6 gallery-item" data-category="activities" data-bs-toggle="modal" data-bs-target="#imageModal" data-src="https://via.placeholder.com/400x300/27ae60/ffffff?text=Coding+Competition" data-title="Coding Competition" data-description="Students competing in programming challenges">
+                    <img src="images/coding.jpeg" alt="Coding Competition">
+                    <div class="gallery-overlay">
+                        <div>
+                            <h5>Coding Competition</h5>
+                            <p>Showcasing programming skills and logic</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6 gallery-item" data-category="activities" data-bs-toggle="modal" data-bs-target="#imageModal" data-src="https://via.placeholder.com/400x300/8e44ad/ffffff?text=Project+Presentation" data-title="Project Presentation" data-description="Students presenting their final projects">
+                    <img src="images/presentaion.jpeg" alt="Project Presentation">
+                    <div class="gallery-overlay">
+                        <div>
+                            <h5>Project Presentation</h5>
+                            <p>Real-world projects by our students</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Video Section -->
+    <section class="section-padding bg-light">
+        <div class="container">
+            <div class="row text-center mb-5">
+                <div class="col">
+                    <h2>Campus <span class="highlight-text">Virtual Tour</span></h2>
+                    <p class="lead">Take a virtual walk through our campus</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-8 mx-auto">
+                    <div class="video-container">
+                        <div class="video-placeholder">
+                            <div class="text-center">
+                                <h4>Campus Virtual Tour</h4>
+                                <p>Experience SEED Infotech campus from anywhere</p>
+                            </div>
+                        </div>
+                        <button class="play-button" onclick="playVideo()">▶</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="section-padding">
+        <div class="container text-center">
+            <h2 class="mb-4">Ready to Be Part of <span class="highlight-text">Our Story</span>?</h2>
+            <p class="lead mb-4">Join thousands of successful students who started their journey at SEED Infotech</p>
+            <div class="d-flex gap-3 justify-content-center flex-wrap">
+                <a href="admission.html" class="btn btn-primary btn-lg">Apply Now</a>
+                <a href="index.html" class="btn btn-outline-primary btn-lg">Learn More</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Image Modal -->
+    <div class="modal fade" id="imageModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalTitle">Image Title</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <img id="modalImage" src="" alt="Gallery Image" class="img-fluid">
+                    <p class="text-white mt-3 text-center" id="modalDescription">Image description</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="py-5" style="background-color: #2c3e50; color: white;">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 mb-3">
+                    <h5>SEED Infotech</h5>
+                    <p>Excellence in IT Training Since 1994</p>
+                    <p class="mb-0">📧 info@seedinfotech.com</p>
+                    <p class="mb-0">📞 +91 (020) 123-4567</p>
+                </div>
+                <div class="col-md-2 mb-3">
+                    <h6>Quick Links</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="index.html" class="text-light text-decoration-none">Home</a></li>
+                        <li><a href="academics.html" class="text-light text-decoration-none">Academics</a></li>
+                        <li><a href="admission.html" class="text-light text-decoration-none">Admission</a></li>
+                        <li><a href="gallery.html" class="text-light text-decoration-none">Gallery</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-2 mb-3">
+                    <h6>Courses</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-light text-decoration-none">Java</a></li>
+                        <li><a href="#" class="text-light text-decoration-none">Python</a></li>
+                        <li><a href="#" class="text-light text-decoration-none">Data Science</a></li>
+                        <li><a href="#" class="text-light text-decoration-none">Cloud Computing</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <h6>Campus Address</h6>
+                    <p class="mb-0">SEED Infotech Campus<br>
+                    IT Hub, Pune, Maharashtra<br>
+                    India - 411001</p>
+                </div>
+            </div>
+            <hr class="my-4">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <p class="mb-0">&copy; 2025 SEED Infotech. All rights reserved.</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <p class="mb-0">Privacy Policy | Terms of Service</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // Gallery Filter Functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            const galleryItems = document.querySelectorAll('.gallery-item');
+
+            filterButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // Remove active class from all buttons
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    // Add active class to clicked button
+                    this.classList.add('active');
+
+                    const filterValue = this.getAttribute('data-filter');
+
+                    galleryItems.forEach(item => {
+                        if (filterValue === 'all' || item.getAttribute('data-category') === filterValue) {
+                            item.style.display = 'block';
+                            item.style.animation = 'fadeIn 0.5s ease-in-out';
+                        } else {
+                            item.style.display = 'none';
+                        }
+                    });
+                });
+            });
+
+            // Modal functionality
+            const modal = document.getElementById('imageModal');
+            const modalImage = document.getElementById('modalImage');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalDescription = document.getElementById('modalDescription');
+
+            galleryItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    const src = this.getAttribute('data-src');
+                    const title = this.getAttribute('data-title');
+                    const description = this.getAttribute('data-description');
+
+                    modalImage.src = src;
+                    modalTitle.textContent = title;
+                    modalDescription.textContent = description;
+                });
+            });
+        });
+
+        // Video functionality
+        function playVideo() {
+            alert('Virtual Campus Tour\n\nThis would normally open a video player with our campus tour. Visit our campus to experience it in person!\n\nContact us: +91 (020) 123-4567');
+        }
+
+        // Add CSS animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes fadeIn {
+                from { opacity: 0; transform: translateY(20px); }
+                to { opacity: 1; transform: translateY(0); }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
